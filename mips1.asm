@@ -14,11 +14,72 @@ main:
 	move $a0, $s0               #armazena vet em $a0 para chamar função
 	jal inicializaVetor 	    #(vet, SIZE, 71);
 	syscall
-	move $s5 , $v0              #soma = inicializaVetor
+	move $s1 , $v0              #soma = inicializaVetor
+	
+	jal ordenaVetor
+	
 			
 zeraVetor:                          #zeraVetor(int *inicio, int *fim)
 
 	jr $ra
+	
+imprimeVetor:                       #imprimeVetor(int vet[], int tam)
+
+	jr $ra
+	
+ordenaVetor:                        #ordenaVetor(int vet[], int n)
+	move $s0, $a0               #armazena vetor no registrador s0
+	li $s2, 0                   #int i;
+	li $s3, 0                   #int j;
+	li $s4, 0                   #int min_idx;
+	
+	FOR:	
+		addi $a1, $a1, -1	                       #n-1
+		slt $t0 , $s2 , $a1                            #testa se i < n-1
+		beq $t0 , $zero , FIMfor                       #se falso vai para FIM
+		addi $s4, $s2, 0                               #min_idx = i
+		
+		FOR2:	
+			addi $s3, $s2, 1		       #j = i + 1
+			addi $a1, $a1, 1	               #n
+			slt $t1 , $s3 , $a1                    #testa se j < n
+			beq $t1 , $zero , FIM2                 #se falso vai para FIM2
+			
+			
+			sll $t6, $s3, 2                        #calcula a quantidade de bits na posição j no vet
+			sll $t7, $s4, 2                        #calcula a quantidade de bits na posição min_idx no vet
+			
+			#preparar variaveis para comparar
+			beq $t0 , $zero , FIMif                #if (vet[j] < vet[min_idx])
+			addi $s4, $s3, 0                       #min_idx = j
+			FIMif:
+			
+			addi $s3, $s3, 1                       #j++
+			j FOR2                                 #volta para FOR2
+		FIM2:
+		
+			bne $s4 , $s2 , FIMif2                 #if (min_idx != i)
+			#preparar variaveis para chamar função
+			#move $a0, ($s0)
+			#move $a1, ($s0)
+			jal troca                              #(&vet[min_idx], &vet[i])	
+		FIMif2:
+		
+		addi $t0, $t0, 1                               #i++
+		j FOR                                          #volta para FOR
+	FIMfor:
+	
+	jr $ra
+	
+	
+troca:                              #troca(int *a, int *b)
+	beq $a0, $a1, FIMtroca      #testa se a == b
+	addi $t0, $a0, 0            #aux = a
+	move $a0, $a1               #a = b
+	move $a1, $t0               #b = aux
+	FIMtroca:              
+	jr $ra
+
 
 valorAleatorio:                     #valorAleatorio(int a, int b, int c, int d, int e)
 
@@ -29,14 +90,6 @@ valorAleatorio:                     #valorAleatorio(int a, int b, int c, int d, 
 	div $v0 , $a3               #((a * b) + c) % d
 	mfhi $v0
 	sub $v0, $v0, $t4           #(((a * b) + c) % d) - e
-	jr $ra
-
-imprimeVetor:                       #imprimeVetor(int vet[], int tam)
-
-	jr $ra
-
-troca:                              #troca(int *a, int *b)
-
 	jr $ra
 	
 inicializaVetor:                    #inicializaVetor(int vetor[], int tamanho, int ultimoValor)
@@ -58,16 +111,16 @@ inicializaVetor:                    #inicializaVetor(int vetor[], int tamanho, i
 	
 	jal valorAleatorio          #(ultimoValor, 47, 97, 337, 3);
 	
-	move $s1, $v0               #novoValor = valorAleatorio
+	move $s2, $v0               #novoValor = valorAleatorio
 	addi $t0, $t0, -4           #tamanho - 1
-	add $s1, $s1, $t0           #apontando para vetor[tamanho - 1]
-	sw $s0, ($s1)		    #vetor[tamanho - 1] = novoValor;
+	add $s2, $s2, $t0           #apontando para vetor[tamanho - 1]
+	sw $s0, ($s2)		    #vetor[tamanho - 1] = novoValor;
 	
 	move $a1, $t0               #armazena tamanho do registrdor $a1 para chamar função
 	move $a2, $a0               #armazena ultimoValor no registrador $a2 para chamar função
 	
 	addi $sp, $sp, -4           #aloca pilha
-	add $v0, $v0, $s1           #novoValor + inicializaVetor
+	add $v0, $v0, $s2           #novoValor + inicializaVetor
 	sw $v0, ($sp)               #armazena retorno na pilha
 	
 	jal inicializaVetor
