@@ -20,14 +20,15 @@ zeraVetor:                          #zeraVetor(int *inicio, int *fim)
 
 	jr $ra
 
-valorAleatorio:                     #valorAleatorio(ultimoValor, 47, 97, 337, 3);
+valorAleatorio:                     #valorAleatorio(int a, int b, int c, int d, int e)
 
 	lw $t4, ($sp)               #recupera valor da pilha
 	addi $sp, $sp, 4            #ajusta pilha
 	mul $v0, $a0, $a1           # a * b
 	add $v0, $v0, $a2           #(a * b) + c
-	div $v0, $v0, $a3           #((a * b) + c)/d
-	sub $v0, $v0, $t4           #(((a * b) + c)/d)-e
+	div $v0 , $a3               #((a * b) + c) % d
+	mfhi $v0
+	sub $v0, $v0, $t4           #(((a * b) + c) % d) - e
 	jr $ra
 
 imprimeVetor:                       #imprimeVetor(int vet[], int tam)
