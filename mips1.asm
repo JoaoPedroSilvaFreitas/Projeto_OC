@@ -16,7 +16,10 @@ main:
 	syscall
 	move $s1 , $v0              #soma = inicializaVetor
 	
-	jal ordenaVetor
+	la $s0, vet                 #armazena endereço do vet
+	li $a1, size                #armazena size no registrador a1
+	move $a0, $s0               #armazena vet em $a0 para chamar função
+	jal ordenaVetor		    #(int vet[], int n)
 	
 			
 zeraVetor:                          #zeraVetor(int *inicio, int *fim)
@@ -45,12 +48,17 @@ ordenaVetor:                        #ordenaVetor(int vet[], int n)
 			slt $t1 , $s3 , $a1                    #testa se j < n
 			beq $t1 , $zero , FIM2                 #se falso vai para FIM2
 			
+			sll $t2, $s3, 2                        #$t2 = j * 4 calcula bits da posição j
+			add $t2, $s0, $t2                      #$t2 = &vet[j] aponta para posição j
 			
-			sll $t6, $s3, 2                        #calcula a quantidade de bits na posição j no vet
-			sll $t7, $s4, 2                        #calcula a quantidade de bits na posição min_idx no vet
+			sll $t3, $s4, 2                        #$t3 = min_idx * 4 calcula bits da posição min_idx
+			add $t3, $s0, $t3                      #$t3 = &vet[min_idx] aponta para posição min_idx
 			
-			#preparar variaveis para comparar
-			beq $t0 , $zero , FIMif                #if (vet[j] < vet[min_idx])
+			lw $s5 , 0($t2)                        #armazena valor na posição vet[j] em $s5
+			lw $s6 , 0($t3)                        #armazena valor na posição vet[min_idx] em $s6
+			
+			slt $t4, $s5, $s6                      #if (vet[j] < vet[min_idx])
+			bne $t4, $zero , FIMif                 #verifica se não é menor
 			addi $s4, $s3, 0                       #min_idx = j
 			FIMif:
 			
@@ -59,16 +67,22 @@ ordenaVetor:                        #ordenaVetor(int vet[], int n)
 		FIM2:
 		
 			bne $s4 , $s2 , FIMif2                 #if (min_idx != i)
-			#preparar variaveis para chamar função
-			#move $a0, ($s0)
-			#move $a1, ($s0)
+			
+			sll $t2, $s2, 2                        #$t2 = i * 4 calcula bits da posição i
+			add $t2, $s0, $t2                      #$t2 = &vet[i] aponta para posição i
+			
+			sll $t3, $s4, 2                        #$t3 = min_idx * 4 calcula bits da posição min_idx
+			add $t3, $s0, $t3                      #$t3 = &vet[min_idx] aponta para posição min_idx
+			
+			move $a0, $t3                          #armazena &vet[min_idx] em a0
+			move $a1, $t4                          #armazena &vet[i] em a0
+			
 			jal troca                              #(&vet[min_idx], &vet[i])	
 		FIMif2:
 		
 		addi $t0, $t0, 1                               #i++
 		j FOR                                          #volta para FOR
 	FIMfor:
-	
 	jr $ra
 	
 	
