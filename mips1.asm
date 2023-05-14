@@ -168,8 +168,8 @@ inicializaVetor:                    #inicializaVetor(int vetor[], int tamanho, i
 	
 	move $s2, $v0               #novoValor = valorAleatorio
 	addi $t0, $t0, -4           #tamanho - 1
-	add $s2, $s2, $t0           #apontando para vetor[tamanho - 1]
-	sw $s0, ($s2)		    #vetor[tamanho - 1] = novoValor;
+	add $s0, $s0, $t0           #apontando para vetor[tamanho - 1]
+	sw $s2, ($s0)		    #vetor[tamanho - 1] = novoValor;
 	
 	move $a1, $t0               #armazena tamanho do registrdor $a1 para chamar função
 	move $a2, $a0               #armazena ultimoValor no registrador $a2 para chamar função
