@@ -16,7 +16,6 @@ main:
 	li $a2, 71                  #armazena 71 no registrador a2
 	move $a0, $s0               #armazena vet em $a0 para chamar função
 	jal inicializaVetor 	    #(vet, SIZE, 71);
-	syscall
 	move $s1 , $v0              #soma = inicializaVetor
 	
 	la $s0, vet                 #armazena endereço do vet
