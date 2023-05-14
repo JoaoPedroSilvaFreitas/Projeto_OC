@@ -8,10 +8,8 @@
 	barra_n:
 		.asciiz "\n "
 		.align 0
-
-		
+	
 .text
-
 main:
 	la $s0, vet                 #armazena endereço do vet
 	li $a1, size                #armazena size no registrador a1
@@ -29,10 +27,30 @@ main:
 	la $s0, vet                 #armazena endereço do vet
 	li $a1, size                #armazena size no registrador a1
 	move $a0, $s0               #armazena vet em $a0 para chamar função
-	jal imprimeVetor
+	jal imprimeVetor	    #(int vet[], int tam)
+	
+	
+	la $s0, vet                 #armazena endereço do vet
+	add $a0, $s0, 0             #$a0 = &vet[0] aponta para posição 0
+	li $t0, size                #armazena size em $t0
+	mul $t0, $t0, 4             #calcula o valor de size em bits
+	add $a1, $s0, $t0           #$a0 = &vet[size] aponta para posição size
+	jal zeraVetor               #zeraVetor(int *inicio, int *fim)
+	
+	la $s0, vet                 #armazena endereço do vet
+	li $a1, size                #armazena size no registrador a1
+	move $a0, $s0               #armazena vet em $a0 para chamar função
+	jal imprimeVetor	    #(int vet[], int tam)
 			
 zeraVetor:                          #zeraVetor(int *inicio, int *fim)
-
+	WHILE:
+		slt $t0, $a0, $a1                             #*inicio < *fim
+		beq $t0 , $zero , FIMwhile                    #se falso vai para FIMforPRT
+		li $t1 , 0                                    #armazena 0 em $t1
+		sw $t1, ($a0)                                 #armazena $t1 em *inicio
+		addi $a0, $a0, 4	                      #inicio++
+		j WHILE                                       #continua while
+	FIMwhile:
 	jr $ra
 	
 imprimeVetor:                       #imprimeVetor(int vet[], int tam)
