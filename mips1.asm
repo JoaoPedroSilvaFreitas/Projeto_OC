@@ -4,6 +4,11 @@
 	vet: 	
 		.align 2
 		.space 80           #20 x 4 bits
+.data
+	barra_n:
+		.asciiz "\n "
+		.align 0
+
 		
 .text
 
@@ -21,13 +26,32 @@ main:
 	move $a0, $s0               #armazena vet em $a0 para chamar função
 	jal ordenaVetor		    #(int vet[], int n)
 	
+	la $s0, vet                 #armazena endereço do vet
+	li $a1, size                #armazena size no registrador a1
+	move $a0, $s0               #armazena vet em $a0 para chamar função
+	jal imprimeVetor
 			
 zeraVetor:                          #zeraVetor(int *inicio, int *fim)
 
 	jr $ra
 	
 imprimeVetor:                       #imprimeVetor(int vet[], int tam)
-
+	li $t0, 0		    #int i = 0
+	
+	FORprt:
+	
+		slt $t1 , $t0 , $a1                            #testa se i < tam
+		beq $t1 , $zero , FIMforPRT                    #se falso vai para FIMforPRT
+		sll $t3, $t1, 2                                #$t3 = i * 4 calcula bits da posição i
+		add $t3, $a0, $t3                              #$t3 = &vet[i] aponta para posição i
+		lw $t4 , ($t3)                                 #armazena valor na posição vet[i] em $t4 
+		syscall                                        #imprime valor do vet[i]
+		addi $t0, $t0, 1	                       #i++
+		
+	FIMforPRT:
+	
+	la $t5, barra_n             #armazena endereço do \n
+	syscall                     #imprime \n
 	jr $ra
 	
 ordenaVetor:                        #ordenaVetor(int vet[], int n)
@@ -54,8 +78,8 @@ ordenaVetor:                        #ordenaVetor(int vet[], int n)
 			sll $t3, $s4, 2                        #$t3 = min_idx * 4 calcula bits da posição min_idx
 			add $t3, $s0, $t3                      #$t3 = &vet[min_idx] aponta para posição min_idx
 			
-			lw $s5 , 0($t2)                        #armazena valor na posição vet[j] em $s5
-			lw $s6 , 0($t3)                        #armazena valor na posição vet[min_idx] em $s6
+			lw $s5 , ($t2)                        #armazena valor na posição vet[j] em $s5
+			lw $s6 , ($t3)                        #armazena valor na posição vet[min_idx] em $s6
 			
 			slt $t4, $s5, $s6                      #if (vet[j] < vet[min_idx])
 			bne $t4, $zero , FIMif                 #verifica se não é menor
