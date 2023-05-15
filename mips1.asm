@@ -1,3 +1,7 @@
+#João Pedro Silva Freitas 201935033
+#João Vitor Gomes da Silva 202035035
+
+
 .eqv size 20                        #define size
 
 .data
