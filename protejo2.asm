@@ -18,10 +18,11 @@ main:
     # Chama a função inicializaVetor
     move    $a0, $s0        # Primeiro parâmetro: vet
     li      $a1, 20         # Segundo parâmetro: SIZE
-    li      $a2, 71         # Terceiro parâmetro: 71
+    #li      $a2, 71         # Terceiro parâmetro: 71
     jal     inicializaVetor # Chama a função inicializaVetor
     
-    nop
+    li      $a2, 71         # Terceiro parâmetro: 71
+    #nop
     
     move    $s1, $v0        # Guarda o retorno da função em soma
     
@@ -184,7 +185,7 @@ inicializaVetor:
     move    $v0, $zero      # Prepara valor de retorno 0
     ble     $s1, $zero, inicializaFim   # Se tamanho <= 0 vai para inicializaFim
     
-    nop
+    #nop
     
     # Passo recursivo
     # Chama a função valorAleatorio
