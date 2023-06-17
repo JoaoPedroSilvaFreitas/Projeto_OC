@@ -28,10 +28,11 @@ main:
     
     # Chama a função imprimeVetor
     move    $a0, $s0        # Primeiro parâmetro: vet
-    li      $a1, 20         # Segundo parâmetro: SIZE
+    #li      $a1, 20         # Segundo parâmetro: SIZE
     jal     imprimeVetor    # Chama a função imprimeVetor
     
-    nop
+    li      $a1, 20         # Segundo parâmetro: SIZE
+    #nop
     
     # Chama a função ordenaVetor
     move    $a0, $s0        # Primeiro parâmetro: vet
@@ -125,7 +126,7 @@ imprimeVetor:
     imprimeLoop:
         beq     $s2, $s1, imprimeFim    # Se i == tam vai para imprimeFim
         
-        nop
+        #nop
         
         sll     $t0, $s2, 2         # $t0 = i * 4
         add     $t0, $s0, $t0       # $t0 = &vet[i]
@@ -138,10 +139,11 @@ imprimeVetor:
         li      $a0, 32             # Primeiro parâmetro: " " (espaço)
         syscall
     
-        addi    $s2, $s2, 1         # Incremento i++
+        #addi    $s2, $s2, 1         # Incremento i++
         j       imprimeLoop         # Repete o laço
         
-        nop
+        addi    $s2, $s2, 1         # Incremento i++
+        #nop
                 
     imprimeFim:
     li      $v0, 11         # Código 11 para impressão de caractere
@@ -153,12 +155,13 @@ imprimeVetor:
     lw      $s0, 4($sp)     # Recupera $s0 da pilha
     lw      $s1, 8($sp)     # Recupera $s1 da pilha
     lw      $s2, 12($sp)    # Recupera $s2 da pilha
-    addi    $sp, $sp, 16    # Libera os 16 bytes alocados pela função
+    #addi    $sp, $sp, 16    # Libera os 16 bytes alocados pela função
     
     # Fim da função
     jr      $ra             # Retorna
     
-    nop
+    addi    $sp, $sp, 16    # Libera os 16 bytes alocados pela função
+    #nop
     
 
 inicializaVetor:
