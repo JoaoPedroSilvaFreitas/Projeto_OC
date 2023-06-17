@@ -44,24 +44,27 @@ main:
     
     # Chama a função imprimeVetor
     move    $a0, $s0        # Primeiro parâmetro: vet
-    li      $a1, 20         # Segundo parâmetro: SIZE
+    #li      $a1, 20         # Segundo parâmetro: SIZE
     jal     imprimeVetor    # Chama a função imprimeVetor
     
-    nop
+    li      $a1, 20         # Segundo parâmetro: SIZE
+    #nop
     
     # Chama a função zeraVetor
     move    $a0, $s0        # Primeiro parâmetro: &vet[0]
-    addi    $a1, $s0, 80    # Segundo parâmetro: &vet[20]
+    #addi    $a1, $s0, 80    # Segundo parâmetro: &vet[20]
     jal     zeraVetor       # Chama a função zeraVetor
     
-    nop
+    addi    $a1, $s0, 80    # Segundo parâmetro: &vet[20]
+    #nop
     
     # Chama a função imprimeVetor
     move    $a0, $s0        # Primeiro parâmetro: vet
-    li      $a1, 20         # Segundo parâmetro: SIZE
+    #li      $a1, 20         # Segundo parâmetro: SIZE
     jal     imprimeVetor    # Chama a função imprimeVetor
     
-    nop
+    li      $a1, 20         # Segundo parâmetro: SIZE
+    #nop
     
     # Impressão em tela: printf("Soma: %d\n", soma);
     li      $v0, 4          # Código 4 para impressão de string
@@ -91,20 +94,21 @@ zeraVetor:
     zeraLoop:
         bge    $a0, $a1, zeraFim    # Se inicio >= fim vai para zeraFim
         
-        nop
+        #nop
         
         sw      $zero, 0($a0)       # Salva valor 0 no endereço apontado por inicio
-        addi    $a0, $a0, 4         # Incrementa inicio para a próxima posição
+        #addi    $a0, $a0, 4         # Incrementa inicio para a próxima posição
         j       zeraLoop            # Repete o laço
         
-        nop
+        addi    $a0, $a0, 4         # Incrementa inicio para a próxima posição
+        #nop
     
     zeraFim:
 
     # Fim da função    
     jr      $ra             # Retorna
     
-    nop
+    #nop
     
 
 imprimeVetor:
