@@ -372,11 +372,12 @@ valorAleatorio:
     add     $v0, $v0, $a2   # $v0 = a * b + c
     div     $v0, $a3        # hi = (a * b + c) % d
     mfhi    $v0             # $v0 = hi
-    sub     $v0, $v0, $t0   # $v0 = (a * b + c) % d - e
+    #sub     $v0, $v0, $t0   # $v0 = (a * b + c) % d - e
         
     # Fim da função
     jr      $ra             # Retorna
     
-    nop
+    sub     $v0, $v0, $t0   # $v0 = (a * b + c) % d - e
+    #nop
 
 
