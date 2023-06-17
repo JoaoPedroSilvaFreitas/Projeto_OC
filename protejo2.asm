@@ -196,10 +196,11 @@ inicializaVetor:
     
     addi    $sp, $sp, -4    # Aloca 4 bytes na pilha para o quinto parâmetro
     li      $t0, 3          # $t0 = 3
-    sw      $t0, 0($sp)     # Quinto parâmetro: 3    
+    #sw      $t0, 0($sp)     # Quinto parâmetro: 3    
     jal     valorAleatorio
     
-    nop
+    sw      $t0, 0($sp)     # Quinto parâmetro: 3
+    #nop
     
     addi    $sp, $sp, 4     # Libera 4 bytes na pilha do quinto parâmetro
     
@@ -212,11 +213,12 @@ inicializaVetor:
     
     # Chama recursivamente a função inicializaVetor
     move    $a0, $s0        # Primeiro parâmetro: vet
-    addi    $a1, $s1, -1    # Segundo parâmetro: tamanho - 1
+    #addi    $a1, $s1, -1    # Segundo parâmetro: tamanho - 1
     move    $a2, $s3        # Terceiro parâmetro: novoValor
     jal     inicializaVetor
     
-    nop
+    addi    $a1, $s1, -1    # Segundo parâmetro: tamanho - 1
+    #nop
     
     # Prepara valor de retorno
     add     $v0, $v0, $s3   # Prepara valor de retorno novoValor + retorno da recursão 
@@ -228,12 +230,13 @@ inicializaVetor:
     lw      $s1, 8($sp)     # Recupera $s1 da pilha
     lw      $s2, 12($sp)    # Recupera $s2 da pilha
     lw      $s3, 16($sp)    # Recupera $s3 da pilha
-    addi    $sp, $sp, 20    # Libera os 20 bytes alocados pela função
+    #addi    $sp, $sp, 20    # Libera os 20 bytes alocados pela função
     
     # Fim da função
     jr      $ra             # Retorna
     
-    nop
+    addi    $sp, $sp, 20    # Libera os 20 bytes alocados pela função
+    #nop
     
 
 ordenaVetor:
