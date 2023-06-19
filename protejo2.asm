@@ -18,53 +18,35 @@ main:
     # Chama a função inicializaVetor
     move    $a0, $s0        # Primeiro parâmetro: vet
     li      $a1, 20         # Segundo parâmetro: SIZE
-    #li      $a2, 71         # Terceiro parâmetro: 71
     jal     inicializaVetor # Chama a função inicializaVetor
-    
     li      $a2, 71         # Terceiro parâmetro: 71
-    #nop
     
     move    $s1, $v0        # Guarda o retorno da função em soma
     
     # Chama a função imprimeVetor
     move    $a0, $s0        # Primeiro parâmetro: vet
-    #li      $a1, 20         # Segundo parâmetro: SIZE
     jal     imprimeVetor    # Chama a função imprimeVetor
-    
     li      $a1, 20         # Segundo parâmetro: SIZE
-    #nop
     
     # Chama a função ordenaVetor
     move    $a0, $s0        # Primeiro parâmetro: vet
-    #li      $a1, 20         # Segundo parâmetro: SIZE
     jal     ordenaVetor     # Chama a função ordenaVetor
-    
     li      $a1, 20         # Segundo parâmetro: SIZE
-    #nop
     
     # Chama a função imprimeVetor
     move    $a0, $s0        # Primeiro parâmetro: vet
-    #li      $a1, 20         # Segundo parâmetro: SIZE
     jal     imprimeVetor    # Chama a função imprimeVetor
-    
     li      $a1, 20         # Segundo parâmetro: SIZE
-    #nop
     
     # Chama a função zeraVetor
     move    $a0, $s0        # Primeiro parâmetro: &vet[0]
-    #addi    $a1, $s0, 80    # Segundo parâmetro: &vet[20]
     jal     zeraVetor       # Chama a função zeraVetor
-    
     addi    $a1, $s0, 80    # Segundo parâmetro: &vet[20]
-    #nop
     
     # Chama a função imprimeVetor
     move    $a0, $s0        # Primeiro parâmetro: vet
-    #li      $a1, 20         # Segundo parâmetro: SIZE
     jal     imprimeVetor    # Chama a função imprimeVetor
-    
     li      $a1, 20         # Segundo parâmetro: SIZE
-    #nop
     
     # Impressão em tela: printf("Soma: %d\n", soma);
     li      $v0, 4          # Código 4 para impressão de string
@@ -94,21 +76,16 @@ zeraVetor:
     zeraLoop:
         bge    $a0, $a1, zeraFim    # Se inicio >= fim vai para zeraFim
         
-        #nop
         
         sw      $zero, 0($a0)       # Salva valor 0 no endereço apontado por inicio
-        #addi    $a0, $a0, 4         # Incrementa inicio para a próxima posição
         j       zeraLoop            # Repete o laço
-        
         addi    $a0, $a0, 4         # Incrementa inicio para a próxima posição
-        #nop
     
     zeraFim:
 
     # Fim da função    
     jr      $ra             # Retorna
     
-    #nop
     
 
 imprimeVetor:
@@ -131,7 +108,6 @@ imprimeVetor:
     imprimeLoop:
         beq     $s2, $s1, imprimeFim    # Se i == tam vai para imprimeFim
         
-        #nop
         
         sll     $t0, $s2, 2         # $t0 = i * 4
         add     $t0, $s0, $t0       # $t0 = &vet[i]
@@ -144,11 +120,8 @@ imprimeVetor:
         li      $a0, 32             # Primeiro parâmetro: " " (espaço)
         syscall
     
-        #addi    $s2, $s2, 1         # Incremento i++
         j       imprimeLoop         # Repete o laço
-        
         addi    $s2, $s2, 1         # Incremento i++
-        #nop
                 
     imprimeFim:
     li      $v0, 11         # Código 11 para impressão de caractere
@@ -160,13 +133,10 @@ imprimeVetor:
     lw      $s0, 4($sp)     # Recupera $s0 da pilha
     lw      $s1, 8($sp)     # Recupera $s1 da pilha
     lw      $s2, 12($sp)    # Recupera $s2 da pilha
-    #addi    $sp, $sp, 16    # Libera os 16 bytes alocados pela função
     
     # Fim da função
     jr      $ra             # Retorna
-    
     addi    $sp, $sp, 16    # Libera os 16 bytes alocados pela função
-    #nop
     
 
 inicializaVetor:
@@ -193,7 +163,6 @@ inicializaVetor:
     move    $v0, $zero      # Prepara valor de retorno 0
     ble     $s1, $zero, inicializaFim   # Se tamanho <= 0 vai para inicializaFim
     
-    #nop
     
     # Passo recursivo
     # Chama a função valorAleatorio
@@ -204,11 +173,8 @@ inicializaVetor:
     
     addi    $sp, $sp, -4    # Aloca 4 bytes na pilha para o quinto parâmetro
     li      $t0, 3          # $t0 = 3
-    #sw      $t0, 0($sp)     # Quinto parâmetro: 3    
     jal     valorAleatorio
-    
     sw      $t0, 0($sp)     # Quinto parâmetro: 3
-    #nop
     
     addi    $sp, $sp, 4     # Libera 4 bytes na pilha do quinto parâmetro
     
@@ -221,12 +187,9 @@ inicializaVetor:
     
     # Chama recursivamente a função inicializaVetor
     move    $a0, $s0        # Primeiro parâmetro: vet
-    #addi    $a1, $s1, -1    # Segundo parâmetro: tamanho - 1
     move    $a2, $s3        # Terceiro parâmetro: novoValor
     jal     inicializaVetor
-    
     addi    $a1, $s1, -1    # Segundo parâmetro: tamanho - 1
-    #nop
     
     # Prepara valor de retorno
     add     $v0, $v0, $s3   # Prepara valor de retorno novoValor + retorno da recursão 
@@ -238,13 +201,10 @@ inicializaVetor:
     lw      $s1, 8($sp)     # Recupera $s1 da pilha
     lw      $s2, 12($sp)    # Recupera $s2 da pilha
     lw      $s3, 16($sp)    # Recupera $s3 da pilha
-    #addi    $sp, $sp, 20    # Libera os 20 bytes alocados pela função
     
     # Fim da função
     jr      $ra             # Retorna
-    
     addi    $sp, $sp, 20    # Libera os 20 bytes alocados pela função
-    #nop
     
 
 ordenaVetor:
@@ -271,11 +231,8 @@ ordenaVetor:
     # Laço externo
     li      $s2, 0          # i = 0
     ordenaFor1:
-        #addi    $t0, $s1, -1            # $t0 = n - 1
         bge     $s2, $t0, ordenaFim1    # Se i >= n - 1 vai para ordenaFim1
-        
         addi    $t0, $s1, -1            # $t0 = n - 1
-        #nop
         
         move    $s4, $s2                # min_idx = i
     
@@ -304,11 +261,8 @@ ordenaVetor:
             move    $s4, $s3                # min_idx = j                        
             
             sortIf1Fim:
-            #addi    $s3, $s3, 1             # j++
             j       ordenaFor2              # Repete o laço interno
-            
             addi    $s3, $s3, 1             # j++
-            #nop
         
         ordenaFim2:
         # Condicional após o laço interno
@@ -320,18 +274,12 @@ ordenaVetor:
         sll     $t0, $s4, 2             # $t0 = min_idx * 4
         add     $a0, $s0, $t0           # Primeiro parâmetro: &vet[min_idx]
         sll     $t0, $s2, 2             # $t0 = i * 4
-        #add     $a1, $s0, $t0           # Segundo parâmetro: &vet[i]
         jal     troca
-        
         add     $a1, $s0, $t0           # Segundo parâmetro: &vet[i]
-        #nop
         
         ordenaIfFim:
-        #addi    $s2, $s2, 1             # i++
         j       ordenaFor1              # Repete o laço externo
-        
         addi    $s2, $s2, 1             # i++
-        #nop
     
     ordenaFim1:
     # Libera espaço na pilha
@@ -341,13 +289,10 @@ ordenaVetor:
     lw      $s2, 12($sp)    # Recupera $s2 da pilha
     lw      $s3, 16($sp)    # Recupera $s3 da pilha
     lw      $s4, 20($sp)    # Recupera $s4 da pilha
-    #addi    $sp, $sp, 24    # Libera os 24 bytes alocados pela função
     
     # Fim da função
     jr      $ra             # Retorna
-    
     addi    $sp, $sp, 24    # Libera os 24 bytes alocados pela função
-    #nop
                   
 troca:
     # Esta função é folha
@@ -357,7 +302,6 @@ troca:
     # Teste da condicional
     beq     $a0, $a1, trocaFim  # Se a == b vai para trocaFim
     
-    nop
     
     # Troca de valores
     lw      $t0, 0($a0)     # $t0 = *a
@@ -369,7 +313,6 @@ troca:
     # Fim da função
     jr      $ra             # Retorna
     
-    nop
                       
                                                                                                                                                                                                                                                           
 valorAleatorio:
@@ -385,12 +328,9 @@ valorAleatorio:
     add     $v0, $v0, $a2   # $v0 = a * b + c
     div     $v0, $a3        # hi = (a * b + c) % d
     mfhi    $v0             # $v0 = hi
-    #sub     $v0, $v0, $t0   # $v0 = (a * b + c) % d - e
         
     # Fim da função
     jr      $ra             # Retorna
-    
     sub     $v0, $v0, $t0   # $v0 = (a * b + c) % d - e
-    #nop
 
 
